@@ -2,7 +2,7 @@ import 'package:notlar_uygulamasi/database/data_base_helper.dart';
 import 'package:notlar_uygulamasi/model/course.dart';
 
 class CourseDao {
-  Future<List<Course>> allCourse() async {
+  static Future<List<Course>> allCourse() async {
     var db = await DataBaseHelper.dataBaseConnect();
     String allCourseSql = "SELECT * FROM notlar";
 
@@ -15,7 +15,8 @@ class CourseDao {
     });
   }
 
-  Future<void> addCourse(String courseName, int pointOne, int pointTwo) async {
+  static Future<void> addCourse(
+      String courseName, int pointOne, int pointTwo) async {
     var db = await DataBaseHelper.dataBaseConnect();
 
     Map<String, dynamic> informations = {};
@@ -27,7 +28,7 @@ class CourseDao {
     await db.insert("notlar", informations);
   }
 
-  Future<void> update(
+  static Future<void> update(
       int courseId, String courseName, int pointOne, int pointTwo) async {
     var db = await DataBaseHelper.dataBaseConnect();
 
@@ -39,7 +40,7 @@ class CourseDao {
     db.update("notlar", informations, where: "not_id=?", whereArgs: [courseId]);
   }
 
-  Future<void> delete(int courseId) async {
+  static Future<void> delete(int courseId) async {
     var db = await DataBaseHelper.dataBaseConnect();
 
     db.delete("notlar", where: "not_id=?", whereArgs: [courseId]);

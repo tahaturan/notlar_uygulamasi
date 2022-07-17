@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notlar_uygulamasi/database/courses_dao.dart';
 import 'package:notlar_uygulamasi/views/home_page.dart';
 import 'package:notlar_uygulamasi/widgets/save_textfield.dart';
 
@@ -15,7 +16,7 @@ class _CourseRegistrationPageState extends State<CourseRegistrationPage> {
   TextEditingController tfpointTwo = TextEditingController();
 
   Future<void> saveLesson(String lessonName, int p1, int p2) async {
-    print("$lessonName $p1 $p2 kayit edildi");
+    await CourseDao.addCourse(lessonName, p1, p2);
     Navigator.push(
         context,
         MaterialPageRoute(

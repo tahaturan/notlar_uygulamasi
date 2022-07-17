@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notlar_uygulamasi/database/courses_dao.dart';
 import 'package:notlar_uygulamasi/model/course.dart';
 import 'package:notlar_uygulamasi/views/home_page.dart';
 import 'package:notlar_uygulamasi/widgets/save_textfield.dart';
@@ -17,7 +18,7 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
   TextEditingController tfpointTwo = TextEditingController();
 
   Future<void> delete(int pointId) async {
-    print("$pointId silindi");
+    await CourseDao.delete(pointId);
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -26,7 +27,7 @@ class _CourseDetailPageState extends State<CourseDetailPage> {
   }
 
   Future<void> update(int pointId, String lessonName, int p1, int p2) async {
-    print("$pointId $lessonName $p1 $p2 kayit Guncellendi");
+    await CourseDao.update(pointId, lessonName, p1, p2);
     Navigator.push(
         context,
         MaterialPageRoute(

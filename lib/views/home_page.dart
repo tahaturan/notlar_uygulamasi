@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:notlar_uygulamasi/database/courses_dao.dart';
 import 'package:notlar_uygulamasi/model/course.dart';
 import 'package:notlar_uygulamasi/views/course_detail_page.dart';
 import 'package:notlar_uygulamasi/views/course_registration_page.dart';
@@ -14,15 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Future<List<Course>> showAllCourses() async {
-    List<Course> coursesList = [];
-
-    var n1 = Course(1, "Tarih", 100, 78);
-    var n2 = Course(2, "Matematik", 10, 56);
-    var n3 = Course(3, "Kimya", 65, 3);
-
-    coursesList.add(n1);
-    coursesList.add(n2);
-    coursesList.add(n3);
+    List<Course> coursesList = await CourseDao.allCourse();
     return coursesList;
   }
 
@@ -61,12 +54,12 @@ class _HomePageState extends State<HomePage> {
                     result = total / coursesList.length;
                   }
                   return Text(
-                    "Ortalama = ${result.toInt()}",
+                    "Genel Ortalama = ${result.toInt()}",
                     style: const TextStyle(fontSize: 14),
                   );
                 } else {
                   return const Text(
-                    "Ortalama = 0",
+                    "Genel Ortalama = 0",
                     style: TextStyle(fontSize: 14),
                   );
                 }

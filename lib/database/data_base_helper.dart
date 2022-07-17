@@ -17,7 +17,7 @@ class DataBaseHelper {
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
 
-      await File(dataBaseName).writeAsBytes(bytes, flush: true);
+      await File(dataBaseRoute).writeAsBytes(bytes, flush: true);
     }
     return openDatabase(dataBaseRoute);
   }
