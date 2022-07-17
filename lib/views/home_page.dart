@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:notlar_uygulamasi/model/course.dart';
 import 'package:notlar_uygulamasi/views/course_detail_page.dart';
@@ -24,10 +26,20 @@ class _HomePageState extends State<HomePage> {
     return coursesList;
   }
 
+  Future<bool> closeApp() async {
+    await exit(0);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            closeApp();
+          },
+          icon: const Icon(Icons.arrow_back_ios_new),
+        ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -63,41 +75,44 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: FutureBuilder<List<Course>>(
-        future: showAllCourses(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            List<Course> coursesList = snapshot.data;
-            return ListView.builder(
-              itemCount: coursesList.length,
-              itemBuilder: (BuildContext context, int index) {
-                Course course = coursesList[index];
-                return Card(
-                  elevation: 5,
-                  margin: const EdgeInsets.all(5),
-                  child: ListTile(
-                    leading:
-                        CircleAvatar(child: Text(course.courseId.toString())),
-                    title: Text(course.courseName),
-                    subtitle: Text(
-                        "P1: ${course.pointOne} P2: ${course.pointTwo} = ${(course.pointOne + course.pointTwo) / 2}"),
-                    trailing: const Icon(Icons.edit),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                CourseDetailPage(point: course),
-                          ));
-                    },
-                  ),
-                );
-              },
-            );
-          } else {
-            return Container();
-          }
-        },
+      body: WillPopScope(
+        onWillPop: closeApp,
+        child: FutureBuilder<List<Course>>(
+          future: showAllCourses(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              List<Course> coursesList = snapshot.data;
+              return ListView.builder(
+                itemCount: coursesList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Course course = coursesList[index];
+                  return Card(
+                    elevation: 5,
+                    margin: const EdgeInsets.all(5),
+                    child: ListTile(
+                      leading:
+                          CircleAvatar(child: Text(course.courseId.toString())),
+                      title: Text(course.courseName),
+                      subtitle: Text(
+                          "P1: ${course.pointOne} P2: ${course.pointTwo} = ${(course.pointOne + course.pointTwo) / 2}"),
+                      trailing: const Icon(Icons.edit),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CourseDetailPage(point: course),
+                            ));
+                      },
+                    ),
+                  );
+                },
+              );
+            } else {
+              return Container();
+            }
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
